@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ACSRC Billing — Dr. M. Azfar Saleem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    box-sizing:border-box;
+    --navy:#0F2A4A;
+    --navy-deep:#0A1E38;
+    --teal:#1E88A8;
+    --gold:#C89A2E;
+    --paper:#F6F7F9;
+    --card:#FFFFFF;
+    --ink:#1C2530;
+    --ink-soft:#5B6672;
+    --line:#E1E5EA;
+    --danger:#B3402A;
+    --ok:#2A7A4F;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *,*::before,*::after{box-sizing:inherit}
+  html{scroll-padding-top: env(safe-area-inset-top, 0px);}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{font-family:'Lora',Georgia,serif;}
+
+  header.top{
+    background:linear-gradient(135deg,var(--navy-deep),var(--navy) 60%,var(--teal));
+    color:#fff;
+    padding:18px 20px calc(18px + env(safe-area-inset-top,0px));
+    padding-top:calc(18px + env(safe-area-inset-top,0px));
+  }
+  .brandrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .brand-mark{
+    width:42px;height:42px;border-radius:50%;
+    background:var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Lora',serif;font-weight:700;color:var(--navy-deep);
+    flex:none;
+  }
+  header.top h1{margin:0;font-size:1.25rem;font-weight:700;letter-spacing:.2px;}
+  header.top .sub{margin:2px 0 0;font-size:.8rem;color:#CFE3EC;}
+
+  nav.tabs{
+    display:flex;gap:6px;margin-top:14px;
+    border-bottom:1px solid rgba(255,255,255,.18);
+  }
+  nav.tabs button{
+    background:none;border:none;color:#CFE3EC;
+    font-family:'Inter';font-size:.88rem;font-weight:600;
+    padding:9px 4px;cursor:pointer;
+    border-bottom:2px solid transparent;
+    margin-right:14px;
+  }
+  nav.tabs button.active{color:#fff;border-bottom-color:var(--gold);}
+
+  main{
+    max-width:980px;margin:0 auto;padding:18px 14px 60px;
+  }
+  .grid{display:grid;grid-template-columns:1fr;gap:16px;}
+  @media(min-width:860px){
+    .grid{grid-template-columns:1.15fr 1fr;align-items:start;}
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px;
+  }
+  .card + .card{margin-top:14px;}
+  .card h2{font-size:1rem;margin:0 0 12px;color:var(--navy-deep);}
+
+  label{display:block;font-size:.78rem;color:var(--ink-soft);margin-bottom:4px;font-weight:500;}
+  input[type=text],input[type=number],input[type=tel],input[type=date],select,textarea{
+    width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:7px;
+    font-family:'Inter';font-size:.92rem;color:var(--ink);background:#fff;
+  }
+  input:focus,select:focus,textarea:focus,button:focus-visible{
+    outline:2px solid var(--teal);outline-offset:1px;
+  }
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+  .field-row.three{grid-template-columns:1fr 1fr 1fr;}
+  @media(max-width:420px){.field-row.three{grid-template-columns:1fr 1fr;}}
+  .field{margin-bottom:10px;}
+
+  table.svc{width:100%;border-collapse:collapse;font-size:.86rem;}
+  table.svc th{
+    text-align:left;font-size:.72rem;color:var(--ink-soft);font-weight:600;
+    padding:0 6px 8px;border-bottom:1px solid var(--line);
+  }
+  table.svc td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:middle;}
+  table.svc tr:last-child td{border-bottom:none;}
+  table.svc td.name{font-weight:500;}
+  table.svc input[type=checkbox]{width:17px;height:17px;accent-color:var(--teal);}
+  table.svc input[type=number]{width:100%;min-width:0;padding:6px 7px;}
+  .qty-col{width:56px;}
+  .price-col{width:92px;}
+  .chk-col{width:32px;}
+
+  .addrow{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+  .addrow input{flex:1;min-width:110px;}
+
+  button.btn{
+    font-family:'Inter';font-weight:600;font-size:.88rem;
+    padding:10px 16px;border-radius:7px;border:1px solid transparent;
+    cursor:pointer;
+  }
+  button.primary{background:var(--navy);color:#fff;}
+  button.primary:hover{background:var(--navy-deep);}
+  button.ghost{background:#fff;color:var(--navy);border-color:var(--line);}
+  button.ghost:hover{border-color:var(--teal);}
+  button.danger-ghost{background:#fff;color:var(--danger);border-color:var(--line);}
+  button.small{padding:6px 10px;font-size:.78rem;}
+  .actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+
+  /* Invoice preview */
+  #invoice{
+    background:#fff;border:1px solid var(--line);border-radius:10px;
+    padding:22px 20px;
+  }
+  .inv-head{display:flex;justify-content:space-between;gap:10px;border-bottom:2px solid var(--navy);padding-bottom:12px;margin-bottom:14px;}
+  .inv-head h2{margin:0;font-size:1.05rem;color:var(--navy-deep);}
+  .inv-head .doc{font-size:.74rem;color:var(--ink-soft);line-height:1.5;margin-top:3px;}
+  .inv-head .meta{text-align:right;font-size:.76rem;color:var(--ink-soft);}
+  .inv-head .meta strong{color:var(--ink);font-size:.86rem;display:block;}
+  .inv-patient{font-size:.84rem;margin-bottom:14px;color:var(--ink);}
+  .inv-patient div{margin-bottom:2px;}
+  table.inv-items{width:100%;border-collapse:collapse;font-size:.84rem;margin-bottom:10px;}
+  table.inv-items th{text-align:left;font-size:.7rem;color:var(--ink-soft);border-bottom:1px solid var(--line);padding:0 4px 6px;}
+  table.inv-items td{padding:6px 4px;border-bottom:1px solid var(--line);}
+  table.inv-items td.num,table.inv-items th.num{text-align:right;}
+  .inv-totals{margin-top:8px;width:100%;font-size:.86rem;}
+  .inv-totals tr td{padding:3px 4px;}
+  .inv-totals tr.grand td{font-weight:700;font-size:1rem;color:var(--navy-deep);border-top:2px solid var(--navy);padding-top:8px;}
+  .inv-empty{color:var(--ink-soft);font-size:.86rem;padding:20px 4px;text-align:center;}
+  .inv-foot{margin-top:18px;font-size:.72rem;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:10px;}
+
+  /* History */
+  table.hist{width:100%;border-collapse:collapse;font-size:.85rem;}
+  table.hist th{text-align:left;font-size:.72rem;color:var(--ink-soft);padding:0 6px 8px;border-bottom:1px solid var(--line);}
+  table.hist td{padding:9px 6px;border-bottom:1px solid var(--line);}
+  table.hist tr:last-child td{border-bottom:none;}
+  .hist-actions{display:flex;gap:6px;flex-wrap:wrap;}
+  .empty-state{padding:30px 10px;text-align:center;color:var(--ink-soft);font-size:.88rem;}
+
+  .toast{
+    position:fixed;bottom:calc(18px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);
+    background:var(--navy-deep);color:#fff;padding:10px 18px;border-radius:8px;
+    font-size:.85rem;opacity:0;pointer-events:none;transition:opacity .25s ease, transform .25s ease;
+    z-index:50;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px);}
+
+  .hidden{display:none !important;}
+
+  /* Login screen */
+  #login-screen{
+    min-height:100vh;min-height:100dvh;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,var(--navy-deep),var(--navy) 60%,var(--teal));
+    padding:20px;
+  }
+  .login-card{
+    background:#fff;border-radius:12px;padding:28px 24px;width:100%;max-width:360px;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+  }
+  .login-card .brand-mark{margin:0 auto 12px;}
+  .login-card h1{text-align:center;font-size:1.15rem;margin:0 0 4px;color:var(--navy-deep);}
+  .login-card p.sub2{text-align:center;color:var(--ink-soft);font-size:.8rem;margin:0 0 18px;}
+  .login-err{color:var(--danger);font-size:.8rem;margin:6px 0 0;min-height:1em;}
+  .login-hint{font-size:.72rem;color:var(--ink-soft);text-align:center;margin-top:14px;}
+
+  /* Reports */
+  .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+  @media(max-width:520px){.kpi-row{grid-template-columns:1fr 1fr;}}
+  .kpi{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px;}
+  .kpi .num{font-family:'Lora',serif;font-size:1.3rem;font-weight:700;color:var(--navy-deep);}
+  .kpi .lbl{font-size:.72rem;color:var(--ink-soft);margin-top:2px;}
+  .svc-breakdown{width:100%;border-collapse:collapse;font-size:.85rem;}
+  .svc-breakdown th{text-align:left;font-size:.72rem;color:var(--ink-soft);padding:0 6px 6px;border-bottom:1px solid var(--line);}
+  .svc-breakdown td{padding:6px;border-bottom:1px solid var(--line);}
+
+  /* Theme awareness */
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#12151B; --card:#1B1F27; --ink:#EAEDF1; --ink-soft:#9AA4B0; --line:#2A2F38;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#12151B; --card:#1B1F27; --ink:#EAEDF1; --ink-soft:#9AA4B0; --line:#2A2F38;
+  }
+  body{background:var(--paper);}
+
+  @page{ size:A4; margin:14mm; }
+  @media print{
+    html,body{
+      -webkit-print-color-adjust:exact; print-color-adjust:exact; color-adjust:exact;
+      background:#fff !important;
+    }
+    header.top, nav.tabs, .no-print, #newbill-panel, #login-screen, footer{display:none !important;}
+    #tab-new{display:block !important;}
+    #tab-history, #tab-reports, #tab-patients, #tab-admin{display:none !important;}
+    .grid{display:block !important;}
+    main{max-width:100%;padding:0;margin:0;}
+    #invoice{
+      border:none;padding:0;box-shadow:none;
+      -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
+    .inv-head{
+      background:linear-gradient(135deg,var(--navy-deep),var(--navy) 70%,var(--teal));
+      -webkit-print-color-adjust:exact; print-color-adjust:exact;
+      color:#fff; border-bottom:none; border-radius:6px;
+      padding:16px 18px; margin-bottom:16px;
+    }
+    .inv-head h2{color:#fff;}
+    .inv-head .doc{color:#E4EEF2;}
+    .inv-head .meta{color:#E4EEF2;}
+    .inv-head .meta strong{color:#fff;}
+    .inv-totals tr.grand td{color:var(--navy-deep);}
+  }
+
+  .ur{font-weight:400;opacity:.7;font-size:.84em}
+  .ur2{display:block;font-weight:400;font-size:.66rem;opacity:.8;letter-spacing:.2px;margin-top:1px}
+  nav.tabs button{line-height:1.2;padding:8px 12px 7px;border-radius:8px 8px 0 0;text-align:center;margin-right:2px}
+  nav.tabs button.active{background:rgba(255,255,255,.14)}
+  header.top h1{letter-spacing:1.5px;font-size:1.35rem}
+  header.top .sub{line-height:1.5}
+  .card{box-shadow:0 1px 3px rgba(15,42,74,.06),0 4px 14px rgba(15,42,74,.04);border-radius:12px}
+  .card h2{padding-bottom:8px;border-bottom:2px solid var(--line);position:relative}
+  .card h2::after{content:"";position:absolute;left:0;bottom:-2px;width:48px;height:2px;background:linear-gradient(90deg,var(--teal),var(--violet))}
+  label{font-weight:600;color:var(--navy)}
+  button.btn{border-radius:8px;box-shadow:0 1px 2px rgba(0,0,0,.08);line-height:1.25;text-align:center}
+  button.primary{background:linear-gradient(135deg,var(--navy),#17406e)}
+  input:focus,select:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(30,136,168,.18);outline:none}
+  table.hist tr:hover td,table.svc tr:hover td{background:#F3F7FB}
+  .brand-logo{width:50px;height:50px;flex:none;border-radius:50%;box-shadow:0 2px 10px rgba(0,0,0,.35)}
+  .login-card .brand-logo{width:76px;height:76px;display:block;margin:0 auto 12px}
+
+  nav.tabs{display:none !important}
+  .menu-btn{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);color:#fff;border-radius:10px;padding:6px 12px;font-size:1.35rem;line-height:1.1;cursor:pointer;text-align:center}
+  .menu-btn .ur2{font-size:.6rem;margin-top:0}
+  .sb-overlay{position:fixed;inset:0;background:rgba(5,15,30,.55);opacity:0;pointer-events:none;transition:opacity .25s;z-index:55}
+  .sb-overlay.open{opacity:1;pointer-events:auto}
+  .sidebar{position:fixed;top:0;left:0;bottom:0;width:290px;max-width:85vw;z-index:60;color:#fff;display:flex;flex-direction:column;
+    background:linear-gradient(185deg,#0A1E38 0%,#0F2A4A 55%,#145a86 100%);transform:translateX(-102%);transition:transform .25s ease;
+    padding-top:env(safe-area-inset-top,0px);box-shadow:none}
+  .sidebar.open{transform:none;box-shadow:6px 0 24px rgba(0,0,0,.35)}
+  .sb-head{display:flex;align-items:center;gap:12px;padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,.14)}
+  .sb-head b{display:block;font-family:'Lora',serif;font-size:1.2rem;letter-spacing:1.5px}
+  .sb-head small{opacity:.75;font-size:.72rem}
+  #sb-nav{flex:1;overflow-y:auto;padding:12px 10px}
+  .sb-item{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:none;border:none;color:#E4EEF4;
+    font-family:'Inter';font-size:.95rem;font-weight:600;padding:13px 14px;border-radius:10px;cursor:pointer;margin-bottom:4px;border-left:4px solid transparent}
+  .sb-item .ic{font-size:1.3rem;width:30px;text-align:center}
+  .sb-item:hover{background:rgba(255,255,255,.1)}
+  .sb-item.active{background:rgba(255,255,255,.16);border-left-color:var(--gold);color:#fff}
+  .sb-foot{padding:14px 16px 18px;border-top:1px solid rgba(255,255,255,.14)}
+  #sb-user{font-size:.8rem;opacity:.8;margin-bottom:10px}
+  .sb-out{width:100%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:10px;padding:10px;font-family:'Inter';font-weight:600;cursor:pointer}
+
+  .dash-hero{background:linear-gradient(120deg,#0A1E38 0%,#0F2A4A 30%,#1E88A8 70%,#7C5CBF 100%);color:#fff;border-radius:16px;padding:22px 24px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px;box-shadow:0 8px 24px rgba(15,42,74,.25)}
+  .dash-hero h2{margin:0 0 4px;font-size:1.35rem;color:#fff}.dash-hero p{margin:0;opacity:.85;font-size:.85rem}
+  .dash-actions{display:flex;gap:10px;flex-wrap:wrap}.dash-actions .btn{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.4)}
+  .dash-actions .btn:hover{background:rgba(255,255,255,.28)}
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:16px}
+  .stat{border-radius:16px;padding:18px;color:#fff;position:relative;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.14)}
+  .stat::after{content:"";position:absolute;right:-26px;top:-26px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.14)}
+  .stat .ic{font-size:1.5rem}.stat .num{font-family:'Lora',serif;font-size:1.6rem;font-weight:700;margin:6px 0 2px}.stat .lbl{font-size:.8rem;opacity:.92}
+  .stat.s1{background:linear-gradient(135deg,#1E88A8,#2E8FC2)}.stat.s2{background:linear-gradient(135deg,#7C5CBF,#D9548A)}
+  .stat.s3{background:linear-gradient(135deg,#1E9E6B,#2BB5A0)}.stat.s4{background:linear-gradient(135deg,#E28B2E,#E3A008)}
+  .grid2{display:grid;grid-template-columns:1fr;gap:16px}@media(min-width:860px){.grid2{grid-template-columns:1.2fr 1fr}}
+  .bars{display:flex;align-items:flex-end;gap:10px;height:170px;padding-top:10px}
+  .bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:.7rem;color:var(--ink-soft)}
+  .bar i{display:block;width:100%;max-width:44px;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#7C5CBF,#1E88A8);min-height:3px}
+  .bar b{font-size:.68rem;color:var(--navy);margin-bottom:3px}
+  .recent-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.86rem}
+  .recent-row:last-child{border-bottom:none}.recent-row small{color:var(--ink-soft);display:block}
+  .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.72rem;font-weight:700}
+  .badge-paid{background:#E4F7EE;color:#1E9E6B}.badge-unpaid{background:#FBEAE8;color:#C0392B}.badge-partial{background:#FDF2DC;color:#B97F00}
+  body{background:linear-gradient(180deg,#EEF3F9 0,#F6F7F9 320px)}
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-card">
+    <img class="brand-logo" alt="ACSRC logo">
+    <h1>ACSRC</h1>
+    <p class="sub2" id="login-sub">Clinic billing &amp; patient records</p>
+
+    <div id="panel-server" class="hidden">
+      <div class="field"><label for="srv-url">Server address</label><input id="srv-url" type="text" placeholder="https://your-clinic-server.up.railway.app" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+      <p class="login-err" id="srv-err"></p>
+      <button class="btn primary" style="width:100%;" onclick="saveServer()">Connect</button>
+      <p class="login-hint">Enter the web address of your clinic server. Ask the person who installed it if you do not have it.</p>
+    </div>
+
+    <div id="panel-setup" class="hidden">
+      <p class="login-hint" style="margin:0 0 12px;">First-time setup: create the clinic and its administrator account.</p>
+      <div class="field"><label for="su-clinic">Clinic name</label><input id="su-clinic" type="text" value="Advanced Cosmetic &amp; Surgical Reshaping Center"></div>
+      <div class="field"><label for="su-doctor">Doctor name</label><input id="su-doctor" type="text" value="Dr. M. Azfar Saleem"></div>
+      <div class="field"><label for="su-user">Admin username</label><input id="su-user" type="text" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+      <div class="field"><label for="su-pass">Admin password</label><input id="su-pass" type="text" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="at least 6 characters"></div>
+      <p class="login-err" id="su-err"></p>
+      <button class="btn primary" style="width:100%;" onclick="setupClinic()">Create clinic</button>
+    </div>
+
+    <div id="panel-signin" class="hidden">
+      <div class="field hidden" id="login-clinic-wrap"><label for="login-clinic">Clinic ID</label><input id="login-clinic" type="text" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+      <div class="field"><label for="login-user">Username</label><input id="login-user" type="text" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+      <div class="field"><label for="login-pass">Password</label><input id="login-pass" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <p class="login-err" id="login-err"></p>
+      <button class="btn primary" id="signin-btn" style="width:100%;" onclick="doLogin()">Sign in</button>
+    </div>
+    <a class="login-hint" id="srv-change" href="#" onclick="changeServer();return false;" style="display:block;color:var(--teal);">Change server address</a>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+<div id="sb-overlay" class="sb-overlay no-print" onclick="toggleSidebar(false)"></div>
+<aside id="sidebar" class="sidebar no-print" aria-label="Menu">
+  <div class="sb-head"><img class="brand-logo" alt="ACSRC logo"><div><b>ACSRC</b><small>Clinic Billing &amp; Records</small></div></div>
+  <nav id="sb-nav"></nav>
+  <div class="sb-foot"><div id="sb-user"></div><button class="sb-out" onclick="toggleSidebar(false);doLogout()">Sign out</button></div>
+</aside>
+<header class="top">
+  <div class="brandrow">
+    <button class="menu-btn no-print" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+    <img class="brand-logo" alt="ACSRC logo">
+    <div>
+      <h1>ACSRC</h1>
+      <p class="sub">Advanced Cosmetic &amp; Surgical Reshaping Center · Dr. M. Azfar Saleem<br>Clinic Billing &amp; Patient Records</p>
+    </div>
+  </div>
+  <nav class="tabs no-print">
+    <button id="tabbtn-new" class="active" onclick="showTab('new')">New Bill</button>
+    <button id="tabbtn-patients" onclick="showTab('patients')">Patients</button>
+    <button id="tabbtn-history" onclick="showTab('history')">History</button>
+    <button id="tabbtn-reports" onclick="showTab('reports')">Reports</button>
+    <button id="tabbtn-admin" class="hidden" onclick="showTab('admin')">Admin</button>
+    <span id="role-badge" style="align-self:center;font-size:.7rem;color:#CFE3EC;margin-left:auto;"></span>
+    <button onclick="doLogout()" style="background:none;border:none;color:#CFE3EC;font-family:'Inter';font-size:.82rem;font-weight:600;cursor:pointer;padding:9px 4px;">Sign out</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- NEW BILL TAB -->
+  <section id="tab-dashboard" class="hidden">
+    <div class="dash-hero">
+      <div><h2 id="dash-greet"></h2><p>Advanced Cosmetic &amp; Surgical Reshaping Center</p></div>
+      <div class="dash-actions no-print">
+        <button class="btn" onclick="showTab('new')">+ New Bill</button>
+        <button class="btn" onclick="showTab('patients')">+ Patient</button>
+      </div>
+    </div>
+    <div class="stat-grid" id="dash-stats"></div>
+    <div class="grid2">
+      <div class="card"><h2>Last 7 days income</h2><div id="dash-chart"></div></div>
+      <div class="card"><h2>Recent bills</h2><div id="dash-recent"></div></div>
+    </div>
+  </section>
+
+  <section id="tab-new">
+    <div class="grid">
+
+      <div id="newbill-panel">
+        <div class="card">
+          <h2>Patient details</h2>
+          <div class="field">
+            <label for="patient-pick">Select registered patient (optional)</label>
+            <select id="patient-pick" onchange="applyPatientPick(this.value)">
+              <option value="">— Walk-in / enter manually —</option>
+            </select>
+          </div>
+          <div class="field-row">
+            <div class="field"><label for="p-name">Patient name</label><input id="p-name" type="text" placeholder="Full name"></div>
+            <div class="field"><label for="p-contact">Contact number</label><input id="p-contact" type="tel" placeholder="03xx-xxxxxxx"></div>
+          </div>
+          <div class="field-row three">
+            <div class="field"><label for="p-age">Age</label><input id="p-age" type="number" min="0" placeholder="Age"></div>
+            <div class="field"><label for="p-gender">Gender</label>
+              <select id="p-gender">
+                <option value="">—</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field"><label for="p-date">Date</label><input id="p-date" type="date"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Services</h2>
+          <table class="svc">
+            <thead><tr>
+              <th class="chk-col"></th><th>Service</th><th class="qty-col">Qty</th><th class="price-col">Price (PKR)</th>
+            </tr></thead>
+            <tbody id="svc-body"></tbody>
+          </table>
+          <div class="addrow">
+            <input id="new-svc-name" type="text" placeholder="Custom item name">
+            <input id="new-svc-price" type="number" placeholder="Price" style="max-width:110px;">
+            <button class="btn ghost small" onclick="addCustomService()">+ Add item</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Discount &amp; notes</h2>
+          <div class="field-row">
+            <div class="field"><label for="discount">Discount (PKR)</label><input id="discount" type="number" min="0" value="0" oninput="renderInvoice()"></div>
+            <div class="field"><label for="paid-status">Payment status</label>
+              <select id="paid-status" onchange="renderInvoice()">
+                <option>Paid</option>
+                <option>Unpaid</option>
+                <option>Partial</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label for="next-visit">Next visit / follow-up date (optional)</label><input id="next-visit" type="date"></div>
+          <div class="field"><label for="notes">Notes (optional)</label><textarea id="notes" rows="2" placeholder="e.g. follow-up in 2 weeks" oninput="renderInvoice()"></textarea></div>
+        </div>
+
+        <div class="actions no-print">
+          <button class="btn primary" onclick="saveBill()">Save bill</button>
+          <button class="btn primary" id="pdf-btn" onclick="downloadInvoicePDF()">⬇ Download / Share PDF</button>
+          <button class="btn ghost" onclick="printInvoice()">🖨 Print A4</button>
+          <button class="btn ghost" onclick="shareWhatsApp()" style="color:#1E9E6B;">WhatsApp</button>
+          <button class="btn ghost" onclick="clearForm()">Clear form</button>
+        </div>
+        <p id="pdf-status" style="font-size:.76rem;color:var(--ink-soft);margin-top:6px;"></p>
+      </div>
+
+      <div>
+        <div id="invoice">
+          <div class="inv-head">
+            <div>
+              <h2>Advanced Cosmetic &amp; Surgical<br>Reshaping Center</h2>
+              <div class="doc">Dr. M. Azfar Saleem — MBBS (DOW), LMCC (Canada)<br>17-F, Block 2, PECHS, Karachi 75400<br>0324-3435619 · 0339-8555337</div>
+            </div>
+            <div class="meta">
+              <strong id="inv-no">Invoice #—</strong>
+              <span id="inv-date-out">—</span>
+            </div>
+          </div>
+          <div id="inv-body"><div class="inv-empty">Fill in patient details and select at least one service to see the invoice preview.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PATIENTS TAB -->
+  <section id="tab-patients" class="hidden">
+    <div class="card">
+      <h2>Register new patient</h2>
+      <div class="field-row">
+        <div class="field"><label for="np-name">Full name *</label><input id="np-name" type="text" placeholder="Full name"></div>
+        <div class="field"><label for="np-contact">Contact number *</label><input id="np-contact" type="tel" placeholder="03xx-xxxxxxx"></div>
+      </div>
+      <div class="field-row three">
+        <div class="field"><label for="np-age">Age</label><input id="np-age" type="number" min="0"></div>
+        <div class="field"><label for="np-gender">Gender</label>
+          <select id="np-gender">
+            <option value="">—</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field"><label for="np-cnic">CNIC (optional)</label><input id="np-cnic" type="text" placeholder="xxxxx-xxxxxxx-x"></div>
+      </div>
+      <div class="field"><label for="np-address">Address</label><input id="np-address" type="text" placeholder="Address"></div>
+      <div class="field-row">
+        <div class="field"><label for="np-emergency">Emergency contact</label><input id="np-emergency" type="tel" placeholder="Name / number"></div>
+        <div class="field"><label for="np-allergies">Known allergies / conditions</label><input id="np-allergies" type="text" placeholder="e.g. Penicillin allergy"></div>
+      </div>
+      <div class="actions no-print">
+        <button class="btn primary" onclick="registerPatient()">Register patient</button>
+        <button class="btn ghost" onclick="clearPatientForm()">Clear</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Registered patients</h2>
+      <div class="field" style="max-width:360px;">
+        <label for="patients-search">Search by name, contact or ID</label>
+        <input id="patients-search" type="text" placeholder="e.g. PT-0003 or Ahmed" oninput="renderPatients()">
+      </div>
+      <div id="patients-wrap"><div class="empty-state">No patients registered yet.</div></div>
+    </div>
+  </section>
+
+  <!-- HISTORY TAB -->
+  <section id="tab-history" class="hidden">
+    <div class="card">
+      <h2>Saved bills</h2>
+      <div class="field" style="max-width:360px;">
+        <label for="hist-search">Find by invoice #, patient name or contact</label>
+        <input id="hist-search" type="text" placeholder="e.g. 0012 or Ahmed" oninput="renderHistory()">
+      </div>
+      <div id="history-wrap"><div class="empty-state">No bills saved yet.</div></div>
+    </div>
+  </section>
+
+  <!-- REPORTS TAB -->
+  <section id="tab-reports" class="hidden">
+    <div class="card">
+      <h2>Revenue report</h2>
+      <div class="field-row">
+        <div class="field"><label for="rep-from">From</label><input id="rep-from" type="date" onchange="renderReport()"></div>
+        <div class="field"><label for="rep-to">To</label><input id="rep-to" type="date" onchange="renderReport()"></div>
+      </div>
+      <div class="actions no-print" style="margin-top:0;margin-bottom:14px;">
+        <button class="btn ghost small" onclick="setReportRange('today')">Today</button>
+        <button class="btn ghost small" onclick="setReportRange('week')">Last 7 days</button>
+        <button class="btn ghost small" onclick="setReportRange('month')">This month</button>
+        <button class="btn ghost small" onclick="setReportRange('all')">All time</button>
+      </div>
+      <div id="report-wrap"></div>
+      <div class="actions no-print" style="margin-top:14px;">
+        <button class="btn ghost small" onclick="exportBillsExcel()">Bills Excel (.xlsx)</button>
+        <button class="btn ghost small" onclick="exportPatientsExcel()">Patients Excel (.xlsx)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADMIN TAB -->
+  <section id="tab-admin" class="hidden">
+    <div class="card">
+      <h2>Overview</h2>
+      <div class="kpi-row" id="admin-kpis"></div>
+    </div>
+
+    <div class="card">
+      <h2>Staff accounts</h2>
+      <div id="accounts-wrap"></div>
+      <div class="addrow" style="margin-top:14px;">
+        <input id="new-acc-user" type="text" placeholder="Username">
+        <input id="new-acc-pass" type="text" placeholder="Password">
+        <select id="new-acc-role" style="max-width:120px;">
+          <option value="staff">Staff</option>
+          <option value="admin">Admin</option>
+        </select>
+        <button class="btn ghost small" onclick="addAccount()">+ Add account</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Change my password</h2>
+      <div class="field-row">
+        <div class="field"><label for="pw-old">Current password</label><input id="pw-old" type="text" autocapitalize="off"></div>
+        <div class="field"><label for="pw-new">New password</label><input id="pw-new" type="text" autocapitalize="off" placeholder="at least 6 characters"></div>
+      </div>
+      <button class="btn primary" onclick="changeMyPassword()">Update password</button>
+    </div>
+
+    <div class="card">
+      <h2>Activity log</h2>
+      <div class="field" style="max-width:360px;">
+        <label for="log-search">Filter by user or action</label>
+        <input id="log-search" type="text" placeholder="e.g. admin or Deleted" oninput="renderActivityLog()">
+      </div>
+      <div id="activity-wrap"></div>
+    </div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+</div><!-- /#app -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+/* ---------- Login (accounts with roles: staff / admin) ---------- */
+function currentUser(){
+  try{ return JSON.parse(sessionStorage.getItem('acsrc_session')||'null'); }catch(e){ return null; }
+}
+
+/* ---------- Activity log ---------- */
+/* ================= Server layer ================= */
+let API_BASE = '';
+const DB = { bills: [], patients: [], services: [], accounts: [], log: [] };
+
+async function api(path, opts = {}) {
+  const headers = { 'Content-Type': 'application/json' };
+  const me = currentUser();
+  if (me && me.token && !opts.noAuth) headers['Authorization'] = 'Bearer ' + me.token;
+  let res;
+  try {
+    res = await fetch(API_BASE.replace(/\/+$/, '') + path, { method: opts.method || 'GET', headers, body: opts.body });
+  } catch (e) {
+    const err = new Error('Cannot reach the server. Check the server address and your internet connection.');
+    err.network = true; throw err;
+  }
+  let data = null;
+  try { data = await res.json(); } catch (e) {}
+  if (!res.ok) {
+    if (res.status === 401 && me && me.token && !opts.noAuth) { doLogout(); }
+    const err = new Error((data && data.error) || ('Request failed (' + res.status + ')'));
+    err.status = res.status; throw err;
+  }
+  return data;
+}
+async function act(fn) { try { await fn(); } catch (e) { showToast(e.message); } }
+
+/* ---- data mapping (server rows -> shapes the screens already use) ---- */
+const mapBill = r => ({ id: r.id, invNo: r.invoice_no, name: r.patient_name, age: r.patient_age == null ? '' : String(r.patient_age),
+  gender: r.patient_gender || '', contact: r.patient_contact || '', date: r.bill_date, items: r.items || [], subtotal: r.subtotal,
+  discount: r.discount, total: r.total, status: r.status, notes: r.notes || '', nextVisit: r.next_visit || '', savedAt: r.created_at, savedBy: r.created_by });
+const mapPatient = r => ({ id: r.id, code: r.code, name: r.name, age: r.age == null ? '' : r.age, gender: r.gender || '', contact: r.contact || '',
+  cnic: r.cnic || '', address: r.address || '', emergency: r.emergency_contact || '', allergies: r.allergies || '' });
+
+function syncServices(list) {
+  const old = Object.fromEntries(services.map(s => [s.id, s]));
+  const keep = services.filter(s => String(s.id).startsWith('custom_'));
+  services = list.map(s => ({ id: s.id, name: s.name, price: s.price, checked: !!(old[s.id] && old[s.id].checked), qty: (old[s.id] && old[s.id].qty) || 1 })).concat(keep);
+}
+async function refreshAll() {
+  const me = currentUser();
+  const calls = [api('/api/bills'), api('/api/patients'), api('/api/services')];
+  if (me && me.role === 'admin') calls.push(api('/api/auth/accounts'), api('/api/reports/activity'));
+  const [b, p, sv, ac, lg] = await Promise.all(calls);
+  DB.bills = b.map(mapBill); DB.patients = p.map(mapPatient); syncServices(sv);
+  DB.accounts = ac || [];
+  DB.log = (lg || []).map(e => ({ ts: (e.created_at || '').replace(' ', 'T') + 'Z', user: e.username, role: e.role, action: e.action, details: e.details || '' }));
+}
+
+/* ---- accessors used by the existing screens ---- */
+function loadBills() { return DB.bills; }
+function loadPatients() { return DB.patients; }
+function loadLog() { return DB.log; }
+function getAccounts() { return DB.accounts; }
+function saveServicesToStorage() {}
+function nextInvoiceNumber() { return DB.bills.reduce((m, b) => Math.max(m, b.invNo || 0), 0) + 1; }
+function logActivity(action, details) { api('/api/reports/log', { method: 'POST', body: JSON.stringify({ action, details }) }).catch(() => {}); }
+
+/* ---- screens: server / setup / sign in ---- */
+function showPanel(name) {
+  ['server', 'setup', 'signin'].forEach(p => document.getElementById('panel-' + p).classList.toggle('hidden', p !== name));
+  document.getElementById('srv-change').classList.toggle('hidden', name === 'server');
+}
+function saveServer() {
+  const v = document.getElementById('srv-url').value.trim().replace(/\/+$/, '');
+  const err = document.getElementById('srv-err');
+  if (!/^https?:\/\//i.test(v)) { err.textContent = 'Enter the full address, starting with http:// or https://'; return; }
+  err.textContent = '';
+  try { localStorage.setItem('acsrc_server', v); } catch (e) {}
+  API_BASE = v; initScreen();
+}
+function changeServer() { document.getElementById('srv-url').value = API_BASE; showPanel('server'); }
+
+async function setupClinic() {
+  const g = id => document.getElementById(id).value.trim();
+  const err = document.getElementById('su-err');
+  if (!g('su-clinic') || !g('su-user') || g('su-pass').length < 6) { err.textContent = 'Clinic name, admin username and a password of at least 6 characters are required.'; return; }
+  try {
+    const d = await api('/api/auth/register-clinic', { method: 'POST', noAuth: true,
+      body: JSON.stringify({ clinicName: g('su-clinic'), doctorName: g('su-doctor'), adminUsername: g('su-user'), adminPassword: g('su-pass') }) });
+    sessionStorage.setItem('acsrc_session', JSON.stringify({ username: d.user.username, role: d.user.role, token: d.token }));
+    await enterApp();
+  } catch (e) { err.textContent = e.message; }
+}
+async function doLogin() {
+  const err = document.getElementById('login-err'); err.textContent = '';
+  const u = document.getElementById('login-user').value.trim(), p = document.getElementById('login-pass').value;
+  const c = document.getElementById('login-clinic').value.trim();
+  if (!u || !p) { err.textContent = 'Enter your username and password.'; return; }
+  document.getElementById('signin-btn').disabled = true;
+  try {
+    const d = await api('/api/auth/login', { method: 'POST', noAuth: true, body: JSON.stringify({ clinicId: c || undefined, username: u, password: p }) });
+    sessionStorage.setItem('acsrc_session', JSON.stringify({ username: d.user.username, role: d.user.role, token: d.token }));
+    document.getElementById('login-pass').value = '';
+    await enterApp();
+  } catch (e) { err.textContent = e.message; }
+  finally { document.getElementById('signin-btn').disabled = false; }
+}
+function doLogout() {
+  try { sessionStorage.removeItem('acsrc_session'); } catch (e) {}
+  DB.bills = []; DB.patients = []; DB.accounts = []; DB.log = [];
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('login-screen').classList.remove('hidden');
+  document.getElementById('login-pass').value = '';
+  if (API_BASE) initScreen(false);
+}
+async function enterApp() {
+  await startApp();
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+}
+async function initScreen(tryResume) {
+  const stored = (function () { try { return localStorage.getItem('acsrc_server') || ''; } catch (e) { return ''; } })();
+  API_BASE = stored || (/^https?:$/.test(location.protocol) && !/claude/.test(location.host) ? location.origin : '');
+  if (!API_BASE) { showPanel('server'); return; }
+  try {
+    const st = await api('/api/auth/status', { noAuth: true });
+    document.getElementById('login-clinic-wrap').classList.toggle('hidden', st.clinicCount <= 1);
+    if (!st.hasClinic) { showPanel('setup'); return; }
+    if (st.clinicName) document.getElementById('login-sub').textContent = st.clinicName;
+    showPanel('signin');
+    if (tryResume !== false && currentUser()) { try { await enterApp(); } catch (e) { doLogout(); } }
+  } catch (e) {
+    document.getElementById('srv-url').value = API_BASE;
+    showPanel('server');
+    document.getElementById('srv-err').textContent = e.message;
+  }
+}
+
+/* ---- startup after sign-in ---- */
+async function startApp() {
+  await refreshAll();
+  renderServiceTable();
+  document.getElementById('p-date').value = localDate();
+  renderPatientPicker();
+  renderInvoice();
+  const me = currentUser();
+  document.getElementById('tabbtn-admin').classList.toggle('hidden', !(me && me.role === 'admin'));
+  document.getElementById('role-badge').textContent = me ? (me.username + ' · ' + me.role) : '';
+  buildSidebar();
+  showTab('dashboard');
+}
+function renderCurrent() {
+  const f = { dashboard: renderDashboard, patients: () => { renderPatients(); renderPatientPicker(); }, history: renderHistory, reports: renderReport, admin: renderAdmin }[currentTab];
+  if (f) f();
+}
+let syncTimer = null;
+function syncSoon() { clearTimeout(syncTimer); syncTimer = setTimeout(async () => { try { await refreshAll(); renderCurrent(); } catch (e) {} }, 250); }
+setInterval(() => { if (currentUser() && !document.hidden && currentTab !== 'new') syncSoon(); }, 30000);
+
+/* ---- actions ---- */
+function setPrice(idx, val) {
+  const price = Math.max(0, parseFloat(val) || 0);
+  services[idx].price = price; renderInvoice();
+  if (String(services[idx].id).startsWith('custom_')) return;
+  act(() => api('/api/services/' + services[idx].id, { method: 'PUT', body: JSON.stringify({ price }) }));
+}
+function addCustomService() {
+  const nameEl = document.getElementById('new-svc-name'), priceEl = document.getElementById('new-svc-price');
+  const name = nameEl.value.trim(), price = parseFloat(priceEl.value);
+  if (!name) { nameEl.focus(); return; }
+  act(async () => {
+    const c = await api('/api/services', { method: 'POST', body: JSON.stringify({ name, price: isNaN(price) ? 0 : price }) });
+    services.push({ id: c.id, name: c.name, price: c.price, checked: true, qty: 1 });
+    nameEl.value = ''; priceEl.value = ''; renderServiceTable(); renderInvoice();
+  });
+}
+function saveBill() {
+  const name = document.getElementById('p-name').value.trim();
+  const { items, discount } = computeTotals();
+  if (!name) { document.getElementById('p-name').focus(); showToast('Enter patient name first'); return; }
+  if (items.length === 0) { showToast('Select at least one service'); return; }
+  const g = id => document.getElementById(id).value;
+  act(async () => {
+    const r = await api('/api/bills', { method: 'POST', body: JSON.stringify({
+      patientId: g('patient-pick') || null, patientName: name, patientAge: g('p-age') || null, patientGender: g('p-gender') || null,
+      patientContact: g('p-contact') || null, billDate: g('p-date'), items: items.map(s => ({ name: s.name, qty: s.qty, price: s.price })),
+      discount, status: g('paid-status'), notes: g('notes').trim(), nextVisit: g('next-visit') || null }) });
+    await refreshAll();
+    document.getElementById('inv-no').textContent = 'Invoice #' + String(r.invoiceNo).padStart(4, '0');
+    showToast('Bill saved (Invoice #' + String(r.invoiceNo).padStart(4, '0') + ')');
+  });
+}
+function deleteBill(idx) {
+  const b = DB.bills[idx]; if (!b) return;
+  act(async () => { await api('/api/bills/' + b.id, { method: 'DELETE' }); await refreshAll(); renderHistory(); showToast('Bill deleted'); });
+}
+function registerPatient() {
+  const g = id => document.getElementById(id).value.trim();
+  if (!g('np-name')) { document.getElementById('np-name').focus(); showToast('Patient name is required'); return; }
+  if (!g('np-contact')) { document.getElementById('np-contact').focus(); showToast('Contact number is required'); return; }
+  act(async () => {
+    const c = await api('/api/patients', { method: 'POST', body: JSON.stringify({ name: g('np-name'), contact: g('np-contact'), age: g('np-age') || null,
+      gender: g('np-gender') || null, cnic: g('np-cnic'), address: g('np-address'), emergencyContact: g('np-emergency'), allergies: g('np-allergies') }) });
+    clearPatientForm(); await refreshAll(); renderPatients(); renderPatientPicker(); showToast('Patient registered: ' + c.code);
+  });
+}
+function deletePatient(idx) {
+  const p = DB.patients[idx]; if (!p) return;
+  act(async () => { await api('/api/patients/' + p.id, { method: 'DELETE' }); await refreshAll(); renderPatients(); renderPatientPicker(); showToast('Patient removed'); });
+}
+function addAccount() {
+  const u = document.getElementById('new-acc-user').value.trim(), p = document.getElementById('new-acc-pass').value, role = document.getElementById('new-acc-role').value;
+  if (!u || !p) { showToast('Username and password required'); return; }
+  act(async () => {
+    await api('/api/auth/accounts', { method: 'POST', body: JSON.stringify({ username: u, password: p, role }) });
+    document.getElementById('new-acc-user').value = ''; document.getElementById('new-acc-pass').value = '';
+    await refreshAll(); renderAccounts(); showToast('Account added');
+  });
+}
+function removeAccount(idx) {
+  const a = DB.accounts[idx]; if (!a) return;
+  act(async () => { await api('/api/auth/accounts/' + a.id, { method: 'DELETE' }); await refreshAll(); renderAccounts(); showToast('Account removed'); });
+}
+function changeMyPassword() {
+  const o = document.getElementById('pw-old').value.trim(), n = document.getElementById('pw-new').value.trim();
+  act(async () => {
+    await api('/api/auth/change-password', { method: 'POST', body: JSON.stringify({ currentPassword: o, newPassword: n }) });
+    document.getElementById('pw-old').value = ''; document.getElementById('pw-new').value = ''; showToast('Password updated');
+  });
+}
+
+
+
+/* ---------- Defaults ---------- */
+const DEFAULT_SERVICES = [
+  {id:'consult', name:'Consultation Fee', price:1500},
+  {id:'sugar', name:'Sugar & Diabetes Checkup', price:800},
+  {id:'bp', name:'Blood Pressure Check', price:500},
+  {id:'pain', name:'Chronic Pain Relief Session', price:2000},
+  {id:'stress', name:'Stress & Anxiety Counseling', price:2500},
+  {id:'family', name:'Family Healthcare Checkup', price:1500},
+  {id:'weight', name:'Weight & Nutrition Consultation', price:2000},
+  {id:'elderly', name:'Elderly Complex Care', price:3000},
+  {id:'cholesterol', name:'Cholesterol Control Test', price:1200},
+];
+
+let services = [];
+let customCounter = 0;
+
+/* ---------- Storage helpers (per-viewer, this browser only) ---------- */
+/* ---------- Render service table ---------- */
+function renderServiceTable(){
+  const body = document.getElementById('svc-body');
+  body.innerHTML = '';
+  services.forEach((s, idx)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="chk-col"><input type="checkbox" ${s.checked?'checked':''} onchange="toggleSvc(${idx}, this.checked)"></td>
+      <td class="name">${escapeHtml(s.name)}</td>
+      <td class="qty-col"><input type="number" min="1" value="${s.qty||1}" onchange="setQty(${idx}, this.value)"></td>
+      <td class="price-col"><input type="number" min="0" value="${s.price}" onchange="setPrice(${idx}, this.value)"></td>
+    `;
+    body.appendChild(tr);
+  });
+}
+function toggleSvc(idx, checked){ services[idx].checked = checked; saveServicesToStorage(); renderInvoice(); }
+function setQty(idx, val){ services[idx].qty = Math.max(1, parseInt(val)||1); saveServicesToStorage(); renderInvoice(); }
+/* ---------- Invoice preview + totals ---------- */
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function fmt(n){ return 'PKR ' + (Math.round(n*100)/100).toLocaleString('en-PK'); }
+
+function getSelected(){
+  return services.filter(s=>s.checked && s.qty>0);
+}
+function computeTotals(){
+  const items = getSelected();
+  const subtotal = items.reduce((sum,s)=>sum + s.price*s.qty, 0);
+  const discount = Math.max(0, parseFloat(document.getElementById('discount').value)||0);
+  const total = Math.max(0, subtotal - discount);
+  return {items, subtotal, discount, total};
+}
+
+function renderInvoice(){
+  const name = document.getElementById('p-name').value.trim();
+  const {items, subtotal, discount, total} = computeTotals();
+  const body = document.getElementById('inv-body');
+
+  if(!name && items.length===0){
+    body.innerHTML = '<div class="inv-empty">Fill in patient details and select at least one service to see the invoice preview.</div>';
+    return;
+  }
+
+  const age = document.getElementById('p-age').value;
+  const gender = document.getElementById('p-gender').value;
+  const contact = document.getElementById('p-contact').value;
+  const dateVal = document.getElementById('p-date').value;
+  const status = document.getElementById('paid-status').value;
+  const notes = document.getElementById('notes').value.trim();
+
+  let rows = items.map(s=>`
+    <tr>
+      <td>${escapeHtml(s.name)}</td>
+      <td class="num">${s.qty}</td>
+      <td class="num">${fmt(s.price)}</td>
+      <td class="num">${fmt(s.price*s.qty)}</td>
+    </tr>`).join('');
+
+  if(items.length===0){
+    rows = `<tr><td colspan="4" style="color:var(--ink-soft);">No services selected yet.</td></tr>`;
+  }
+
+  body.innerHTML = `
+    <div class="inv-patient">
+      <div><strong>${escapeHtml(name||'—')}</strong>${age?(' · '+escapeHtml(age)+' yrs'):''}${gender?(' · '+escapeHtml(gender)):''}</div>
+      ${contact?`<div>${escapeHtml(contact)}</div>`:''}
+    </div>
+    <table class="inv-items">
+      <thead><tr><th>Service</th><th class="num">Qty</th><th class="num">Price</th><th class="num">Amount</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <table class="inv-totals">
+      <tr><td>Subtotal</td><td class="num" style="text-align:right">${fmt(subtotal)}</td></tr>
+      ${discount>0?`<tr><td>Discount</td><td class="num" style="text-align:right">− ${fmt(discount)}</td></tr>`:''}
+      <tr class="grand"><td>Total</td><td class="num" style="text-align:right">${fmt(total)}</td></tr>
+      <tr><td>Status</td><td class="num" style="text-align:right">${escapeHtml(status)}</td></tr>
+    </table>
+    ${notes?`<div class="inv-foot"><strong>Note:</strong> ${escapeHtml(notes)}</div>`:''}
+    <div class="inv-foot">Thank you for visiting. Timing: 5:00 PM – 9:00 PM (Monday closed).</div>
+  `;
+
+  document.getElementById('inv-date-out').textContent = dateVal ? new Date(dateVal+'T00:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : '—';
+}
+
+/* wire up patient field listeners */
+['p-name','p-age','p-gender','p-contact','p-date'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', renderInvoice);
+  document.getElementById(id).addEventListener('change', renderInvoice);
+});
+
+/* ---------- Save bill / history ---------- */
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 1800);
+}
+
+/* ================= ACSRC logo ================= */
+const LOGO_FULL_SVG=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0A1E38"/><stop offset=".55" stop-color="#145a86"/><stop offset="1" stop-color="#1E88A8"/></linearGradient>
+<linearGradient id="l" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E5B94E"/><stop offset="1" stop-color="#C89A2E"/></linearGradient></defs>
+<circle cx="100" cy="100" r="96" fill="url(#g)"/>
+<circle cx="100" cy="100" r="96" fill="none" stroke="#C89A2E" stroke-width="5"/>
+<circle cx="100" cy="100" r="89" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="1.5"/>
+<path d="M78 40 C96 38 112 48 116 66 C118 76 120 82 128 94 C132 100 124 102 122 103 C124 108 120 110 121 114 C122 118 119 121 120 125 C121 134 112 142 100 144 C92 145 86 142 82 138" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M58 146 C42 128 50 104 74 100 C80 120 74 138 58 146 Z" fill="url(#l)"/>
+<path d="M58 146 C60 128 66 114 74 102" fill="none" stroke="#0A1E38" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/>
+<path d="M92 149 L132 149" stroke="#D9548A" stroke-width="4" stroke-linecap="round"/>
+<text x="100" y="173" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-weight="700" font-size="20" letter-spacing="3" fill="#fff">ACSRC</text>
+</svg>`;
+const LOGO_ICON_SVG=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0A1E38"/><stop offset=".55" stop-color="#145a86"/><stop offset="1" stop-color="#1E88A8"/></linearGradient>
+<linearGradient id="l" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E5B94E"/><stop offset="1" stop-color="#C89A2E"/></linearGradient></defs>
+<circle cx="100" cy="100" r="96" fill="url(#g)"/>
+<circle cx="100" cy="100" r="96" fill="none" stroke="#C89A2E" stroke-width="5"/>
+<circle cx="100" cy="100" r="89" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="1.5"/>
+<g transform="translate(0,8)"><path d="M78 40 C96 38 112 48 116 66 C118 76 120 82 128 94 C132 100 124 102 122 103 C124 108 120 110 121 114 C122 118 119 121 120 125 C121 134 112 142 100 144 C92 145 86 142 82 138" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M58 146 C42 128 50 104 74 100 C80 120 74 138 58 146 Z" fill="url(#l)"/>
+<path d="M58 146 C60 128 66 114 74 102" fill="none" stroke="#0A1E38" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/>
+<path d="M92 156 L132 156" stroke="#D9548A" stroke-width="4" stroke-linecap="round"/></g>
+
+</svg>`;
+function svgUri(x){ return 'data:image/svg+xml;base64,'+btoa(x); }
+document.querySelectorAll('.brand-logo').forEach(i=>{ i.src=svgUri(LOGO_ICON_SVG); });
+let LOGO_PNG=null;
+function loadLogoPng(){ return new Promise(res=>{ const img=new Image(); img.onload=()=>{ try{ const c=document.createElement('canvas'); c.width=c.height=300; c.getContext('2d').drawImage(img,0,0,300,300); LOGO_PNG=c.toDataURL('image/png'); }catch(e){} res(); }; img.onerror=()=>res(); img.src=svgUri(LOGO_FULL_SVG); }); }
+
+function buildPrintHtml(label){
+  const name=document.getElementById('p-name').value.trim();
+  const age=document.getElementById('p-age').value, gender=document.getElementById('p-gender').value;
+  const contact=document.getElementById('p-contact').value, dv=document.getElementById('p-date').value;
+  const status=document.getElementById('paid-status').value, notes=document.getElementById('notes').value.trim();
+  const nv=document.getElementById('next-visit').value;
+  const d=x=>x?new Date(x+'T00:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'';
+  const {items,subtotal,discount,total}=computeTotals();
+  const rows=items.map((s,i)=>`<tr><td>${i+1}</td><td>${escapeHtml(s.name)}</td><td class="r">${s.qty}</td><td class="r">${fmt(s.price)}</td><td class="r">${fmt(s.price*s.qty)}</td></tr>`).join('');
+  const sc=status==='Paid'?'#1E9E6B':status==='Partial'?'#E3A008':'#C0392B';
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${escapeHtml(label)}</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>@page{size:A4;margin:12mm}*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{font-family:Inter,Arial,sans-serif;color:#1C2530;margin:0;font-size:14px}.pg{min-height:271mm;display:flex;flex-direction:column}.sp{flex:1}.sg{display:flex;justify-content:space-between;margin-top:60px}.sg div{width:200px;border-top:1px solid #5B6672;text-align:center;padding-top:6px;font-size:12px;color:#5B6672}
+.hd{background:linear-gradient(120deg,#0A1E38,#0F2A4A 35%,#1E88A8 72%,#7C5CBF);color:#fff;padding:18px 20px;border-radius:8px;display:flex;justify-content:space-between;gap:16px}
+.hd h1{margin:0;font-size:18px}.ur{font-family:'Noto Nastaliq Urdu',serif;direction:rtl;font-size:15px;line-height:2;margin:0}
+.hd small{display:block;opacity:.85;line-height:1.6}.no{text-align:right}.no b{font-size:16px;display:block}
+.bar{height:5px;border-radius:3px;margin:8px 0 14px;background:linear-gradient(90deg,#C89A2E,#D9548A,#7C5CBF,#1E88A8)}
+.pt{display:flex;justify-content:space-between;background:#F3F6FA;border-left:4px solid #1E88A8;padding:10px 14px;border-radius:6px;margin-bottom:14px}
+table{width:100%;border-collapse:collapse}th{background:#0F2A4A;color:#fff;text-align:left;padding:10px 8px;font-size:12px}
+td{padding:11px 8px;border-bottom:1px solid #E1E5EA}tr:nth-child(even) td{background:#F8FAFC}.r{text-align:right}
+.tot{margin:14px 0 0 auto;width:260px}.tot div{display:flex;justify-content:space-between;padding:4px 0}
+.tot .g{border-top:2px solid #0F2A4A;margin-top:4px;padding-top:8px;font-size:16px;font-weight:700;color:#0F2A4A}
+.st{display:inline-block;padding:2px 12px;border-radius:99px;color:#fff;font-weight:600;background:${sc}}
+.nv{margin-top:16px;padding:10px 14px;border:1px dashed #D9548A;border-radius:6px;color:#8a2c57}
+.ft{margin-top:30px;border-top:1px solid #E1E5EA;padding-top:10px;color:#5B6672;font-size:11px;display:flex;justify-content:space-between}
+</style></head><body><div class="pg">
+<div class="hd"><div style="display:flex;gap:16px;align-items:center"><img src="${svgUri(LOGO_FULL_SVG)}" width="78" height="78" alt=""><div><h1>Advanced Cosmetic &amp; Surgical Reshaping Center</h1><p class="ur">ایڈوانسڈ کاسمیٹک اینڈ سرجیکل ری شیپنگ سینٹر</p>
+<small>Dr. M. Azfar Saleem — MBBS (DOW), LMCC (Canada)<br>17-F, Block 2, PECHS, Karachi 75400 · 0324-3435619 · 0339-8555337</small></div></div>
+<div class="no"><b>${escapeHtml(label)}</b>${d(dv)}</div></div><div class="bar"></div>
+<div class="pt"><div><b>${escapeHtml(name)}</b><br>${[age?age+' yrs':'',gender,contact].filter(Boolean).map(escapeHtml).join(' · ')}</div><div>Status<br><span class="st">${escapeHtml(status)}</span></div></div>
+<table><thead><tr><th>#</th><th>Service</th><th class="r">Qty</th><th class="r">Price</th><th class="r">Amount</th></tr></thead><tbody>${rows}</tbody></table>
+<div class="tot"><div><span>Subtotal</span><span>${fmt(subtotal)}</span></div>${discount>0?`<div><span>Discount</span><span>− ${fmt(discount)}</span></div>`:''}<div class="g"><span>Total</span><span>${fmt(total)}</span></div></div>
+${notes?`<p><b>Note:</b> ${escapeHtml(notes)}</p>`:''}${nv?`<div class="nv">📅 Next visit: <b>${d(nv)}</b></div>`:''}
+<div class="sp"></div><div class="sg"><div>Patient signature</div><div>Doctor / Stamp</div></div>
+<div class="ft"><span>Thank you for visiting. Timing: 5:00 PM – 9:00 PM (Monday closed).</span><span>شفا یاب ہوں</span></div></div>
+<script>window.onload=function(){setTimeout(function(){window.print()},500)}<\/script></body></html>`;
+}
+
+function printInvoice(){
+  const name=document.getElementById('p-name').value.trim();
+  if(!name){ document.getElementById('p-name').focus(); showToast('Enter patient name'); return; }
+  if(getSelected().length===0){ showToast('Select at least one service'); return; }
+  let label=document.getElementById('inv-no').textContent;
+  if(label==='Invoice #—'){ label='Invoice #'+String(nextInvoiceNumber()).padStart(4,'0')+' (unsaved)'; document.getElementById('inv-no').textContent=label; }
+  logActivity('Printed invoice',label);
+  const st=document.getElementById('pdf-status');
+  if(window.claude&&window.claude.use){ st.textContent='Direct printing is not available in this view. Creating a PDF instead: open it and print from there.'; downloadInvoicePDF(); return; }
+  st.textContent='If the print dialog does not open, use "Download / Share PDF" and print the PDF.';
+  const html=buildPrintHtml(label);
+  const f=document.createElement('iframe');
+  f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden';
+  document.body.appendChild(f);
+  try{ f.contentDocument.open(); f.contentDocument.write(html); f.contentDocument.close(); }
+  catch(e){ window.print(); }
+  setTimeout(()=>f.remove(),60000);
+}
+
+function shareWhatsApp(){
+  const name=document.getElementById('p-name').value.trim();
+  if(!name||getSelected().length===0){ showToast('Enter a name and select a service'); return; }
+  const {items,total,discount}=computeTotals();
+  const label=document.getElementById('inv-no').textContent.replace('—','(unsaved)');
+  const nv=document.getElementById('next-visit').value;
+  const msg=`*Advanced Cosmetic & Surgical Reshaping Center*\nDr. M. Azfar Saleem\n\n${label}\nPatient: ${name}\n`+
+    items.map(s=>`• ${s.name} x${s.qty} — ${fmt(s.price*s.qty)}`).join('\n')+
+    (discount>0?`\nDiscount: ${fmt(discount)}`:'')+`\n*Total: ${fmt(total)}* (${document.getElementById('paid-status').value})`+
+    (nv?`\nNext visit: ${nv}`:'')+`\n\nThank you! 0324-3435619`;
+  let ph=(document.getElementById('p-contact').value||'').replace(/\D/g,'');
+  if(ph.startsWith('0')) ph='92'+ph.slice(1);
+  logActivity('Shared bill on WhatsApp',label);
+  window.open('https://wa.me/'+ph+'?text='+encodeURIComponent(msg),'_blank');
+}
+
+async function saveFile(filename,blob){
+  try{
+    if(window.claude&&window.claude.use){
+      const d=await window.claude.use('downloads');
+      if(d){ await d.save({filename,data:blob}); showToast('File ready: '+filename); return true; }
+    }
+  }catch(e){
+    if(e&&e.code==='declined') return false;
+    showToast('Could not save the file ('+((e&&e.code)||'error')+')'); return false;
+  }
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; document.body.appendChild(a); a.click(); a.remove();
+  showToast('File downloaded: '+filename); return true;
+}
+function makeWorkbook(sheets){
+  const wb=XLSX.utils.book_new();
+  sheets.forEach(([rows,name,w])=>{ const ws=XLSX.utils.json_to_sheet(rows.length?rows:[{}]); ws['!cols']=w.map(x=>({wch:x})); XLSX.utils.book_append_sheet(wb,ws,name); });
+  const out=XLSX.write(wb,{bookType:'xlsx',type:'array'});
+  return new Blob([out],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+}
+async function exportBillsExcel(){
+  const bills=loadBills();
+  if(!bills.length){ showToast('No bills yet'); return; }
+  if(!window.XLSX){ showToast('Excel library could not load. Check your internet connection'); return; }
+  const billRows=bills.map(b=>({'Invoice #':b.invNo,'Date':b.date,'Patient':b.name,'Age':b.age,'Gender':b.gender,'Contact':b.contact,
+    'Services':(b.items||[]).map(i=>i.name+' x'+i.qty).join(', '),'Subtotal':b.subtotal,'Discount':b.discount,'Total':b.total,
+    'Status':b.status,'Next visit':b.nextVisit||'','Notes':b.notes||'','Saved by':b.savedBy||''}));
+  const lineRows=[]; bills.forEach(b=>(b.items||[]).forEach(i=>lineRows.push({'Invoice #':b.invNo,'Date':b.date,'Patient':b.name,'Service':i.name,'Qty':i.qty,'Price':i.price,'Amount':i.qty*i.price})));
+  await saveFile('ACSRC-Bills-'+localDate()+'.xlsx',makeWorkbook([[billRows,'Bills',[10,12,22,6,8,16,40,10,10,10,10,12,24,12]],[lineRows,'Service-wise',[10,12,22,32,6,10,10]]]));
+  logActivity('Exported bills Excel','');
+}
+async function exportPatientsExcel(){
+  const list=loadPatients();
+  if(!list.length){ showToast('No patients registered yet. Register a patient first'); return; }
+  if(!window.XLSX){ showToast('Excel library could not load. Check your internet connection'); return; }
+  const rows=list.map(p=>({'ID':p.code,'Name':p.name,'Age':p.age,'Gender':p.gender,'Contact':p.contact,'CNIC':p.cnic,'Address':p.address,'Emergency contact':p.emergency,'Allergies / conditions':p.allergies}));
+  await saveFile('ACSRC-Patients-'+localDate()+'.xlsx',makeWorkbook([[rows,'Patients',[10,22,6,8,16,18,30,18,24]]]));
+  logActivity('Exported patients Excel','');
+}
+/* ---------- PDF generation (A4, for download / sharing with patient) ---------- */
+function buildInvoicePdfBlob(invNoLabel){
+  const g=id=>document.getElementById(id).value;
+  const name=g('p-name').trim()||'Walk-in Patient', age=g('p-age'), gender=g('p-gender'), contact=g('p-contact');
+  const status=g('paid-status'), notes=g('notes').trim(), nv=g('next-visit');
+  const dt=x=>x?new Date(x+'T00:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'-';
+  const {items,subtotal,discount,total}=computeTotals();
+  const {jsPDF}=window.jspdf; const doc=new jsPDF({unit:'mm',format:'a4'});
+  const W=doc.internal.pageSize.getWidth(), H=doc.internal.pageSize.getHeight();
+  const NAVY=[15,42,74],TEAL=[30,136,168],VIO=[124,92,191],GOLD=[200,154,46],ROSE=[217,84,138],INK=[28,37,48],SOFT=[91,102,114];
+  const bar=(y,h)=>{[GOLD,ROSE,VIO,TEAL].forEach((c,i)=>{doc.setFillColor(...c);doc.rect(i*W/4,y,W/4,h,'F');});};
+  // header
+  doc.setFillColor(...NAVY); doc.rect(0,0,W,40,'F');
+  doc.setFillColor(...TEAL); doc.rect(W-52,0,40,40,'F');
+  doc.setFillColor(...VIO); doc.rect(W-12,0,12,40,'F');
+  if(LOGO_PNG){ doc.addImage(LOGO_PNG,'PNG',8,6,28,28); }
+  else { doc.setFillColor(...GOLD); doc.circle(22,20,10,'F'); doc.setTextColor(...NAVY); doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.text('AS',22,21.5,{align:'center'}); }
+  doc.setTextColor(255,255,255); doc.setFontSize(13); doc.text('Advanced Cosmetic & Surgical Reshaping Center',38,15);
+  doc.setFont('helvetica','normal'); doc.setFontSize(9);
+  doc.text('Dr. M. Azfar Saleem  |  MBBS (DOW), LMCC (Canada)',38,22);
+  doc.setFontSize(8.5); doc.text('17-F, Block 2, PECHS, Karachi 75400',38,27.5); doc.text('Tel: 0324-3435619  |  0339-8555337',38,32.5);
+  doc.setFontSize(8); doc.text('INVOICE',W-32,14,{align:'center'});
+  doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.text(invNoLabel.replace('Invoice ','').replace(' (unsaved)',''),W-32,22,{align:'center'});
+  doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.text(dt(g('p-date')),W-32,28.5,{align:'center'});
+  bar(40,2.5);
+  // patient box
+  doc.setFillColor(243,246,250); doc.roundedRect(14,50,W-28,22,2,2,'F');
+  doc.setFillColor(...TEAL); doc.rect(14,50,1.6,22,'F');
+  doc.setTextColor(...SOFT); doc.setFontSize(7.5); doc.text('BILLED TO',21,56);
+  doc.setTextColor(...INK); doc.setFont('helvetica','bold'); doc.setFontSize(12.5); doc.text(name,21,63);
+  doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(...SOFT);
+  doc.text([age?age+' yrs':'',gender,contact].filter(Boolean).join('   |   '),21,69);
+  const sc=status==='Paid'?[30,158,107]:status==='Partial'?[227,160,8]:[192,57,43];
+  doc.setFillColor(...sc); doc.roundedRect(W-48,57,28,8,4,4,'F');
+  doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.text(status.toUpperCase(),W-34,62.3,{align:'center'});
+  // table
+  doc.autoTable({startY:80,head:[['#','Service','Qty','Price','Amount']],
+    body:items.map((x,i)=>[String(i+1),x.name,String(x.qty),fmt(x.price),fmt(x.price*x.qty)]),
+    theme:'plain',margin:{left:14,right:14},
+    headStyles:{fillColor:NAVY,textColor:255,fontStyle:'bold',fontSize:9,cellPadding:3.2},
+    styles:{fontSize:9.5,textColor:INK,cellPadding:3.4,lineColor:[225,229,234],lineWidth:{bottom:.2}},
+    alternateRowStyles:{fillColor:[248,250,252]},
+    columnStyles:{0:{cellWidth:10},2:{halign:'right',cellWidth:16},3:{halign:'right',cellWidth:34},4:{halign:'right',cellWidth:36,fontStyle:'bold'}},
+    didParseCell:d=>{ if(d.section==='head' && d.column.index>=2) d.cell.styles.halign='right'; }});
+  let y=doc.lastAutoTable.finalY+9;
+  if(y>H-95){ doc.addPage(); y=25; }
+  // totals
+  const bx=W-84;
+  doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.setTextColor(...SOFT);
+  doc.text('Subtotal',bx,y); doc.text(fmt(subtotal),W-14,y,{align:'right'});
+  if(discount>0){ y+=7; doc.text('Discount',bx,y); doc.setTextColor(...ROSE); doc.text('- '+fmt(discount),W-14,y,{align:'right'}); }
+  y+=5; doc.setFillColor(...NAVY); doc.roundedRect(bx-4,y,74,12,2,2,'F');
+  doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.text('TOTAL',bx,y+7.8); doc.setFontSize(12.5); doc.text(fmt(total),W-16,y+8,{align:'right'});
+  y+=20;
+  if(nv!==''){ doc.setDrawColor(...ROSE); doc.setLineDashPattern([1.6,1.4],0); doc.roundedRect(14,y,86,11,2,2,'S'); doc.setLineDashPattern([],0);
+    doc.setTextColor(138,44,87); doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.text('Next visit:  '+dt(nv),19,y+7); y+=17; }
+  if(notes){ doc.setTextColor(...INK); doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.text('Note',14,y);
+    doc.setFont('helvetica','normal'); doc.setTextColor(...SOFT); doc.text(doc.splitTextToSize(notes,W-28),14,y+5); }
+  // footer
+  doc.setDrawColor(...SOFT); doc.setLineWidth(.2); doc.line(18,H-42,76,H-42); doc.line(W-76,H-42,W-18,H-42);
+  doc.setFontSize(8); doc.setTextColor(...SOFT); doc.text('Patient signature',47,H-37.5,{align:'center'}); doc.text('Doctor / Stamp',W-47,H-37.5,{align:'center'});
+  doc.setDrawColor(225,229,234); doc.line(14,H-26,W-14,H-26);
+  doc.setFontSize(8.5); doc.text('Thank you for choosing us. Wishing you good health.',W/2,H-20,{align:'center'});
+  doc.setFontSize(7.5); doc.text('Timing: 5:00 PM - 9:00 PM (Mon-Sat)  |  Appointments: 0324-3435619  |  WhatsApp: 0339-8555337',W/2,H-15.5,{align:'center'});
+  bar(H-4,4);
+  return doc.output('blob');
+}
+
+async function downloadInvoicePDF(){
+  const name = document.getElementById('p-name').value.trim();
+  const {items} = computeTotals();
+  if(!name){ document.getElementById('p-name').focus(); showToast('Enter patient name'); return; }
+  if(items.length===0){ showToast('Select at least one service'); return; }
+
+  const statusEl = document.getElementById('pdf-status');
+  const btn = document.getElementById('pdf-btn');
+  let invLabel = document.getElementById('inv-no').textContent;
+  if(invLabel === 'Invoice #—'){
+    invLabel = 'Invoice #' + String(nextInvoiceNumber()).padStart(4,'0') + ' (unsaved)';
+    document.getElementById('inv-no').textContent = invLabel;
+  }
+
+  btn.disabled = true;
+  statusEl.textContent = 'Preparing PDF…';
+
+  try{
+    if(!(window.jspdf && window.jspdf.jsPDF)) throw {code:'pdf-library-not-loaded'};
+    await loadLogoPng();
+    const blob = buildInvoicePdfBlob(invLabel);
+    const safeInv = invLabel.replace(/[^0-9]/g,'') || 'bill';
+    const safeName = name.replace(/[^a-z0-9]+/gi,'-').replace(/^-+|-+$/g,'') || 'patient';
+    const filename = `Invoice-${safeInv}-${safeName}.pdf`;
+
+    let saved=false;
+    if(window.claude && window.claude.use){
+      const downloads = await window.claude.use('downloads');
+      if(downloads){ await downloads.save({ filename, data: blob }); saved=true; }
+    }
+    if(!saved){
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 10000);
+    }
+    statusEl.textContent = 'PDF ready: ' + filename + ' — you can now share it by WhatsApp or email.';
+    logActivity('Downloaded PDF', invLabel + ' — ' + name);
+  }catch(err){
+    const code = err && err.code;
+    if(code === 'declined'){
+      statusEl.textContent = 'Save cancelled.';
+    } else if(code === 'rate_limited'){
+      statusEl.textContent = 'Please wait a moment and try again.';
+    } else {
+      statusEl.textContent = code==='pdf-library-not-loaded' ? 'PDF library could not load. Check your internet connection and refresh the page.' : 'Could not create the PDF (' + (code||(err&&err.message)||'error') + '). Try Print A4 instead.';
+    }
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function clearForm(){
+  document.getElementById('p-name').value='';
+  document.getElementById('p-age').value='';
+  document.getElementById('p-gender').value='';
+  document.getElementById('p-contact').value='';
+  document.getElementById('p-date').value='';
+  document.getElementById('discount').value=0;
+  document.getElementById('paid-status').value='Paid';
+  document.getElementById('notes').value='';
+  document.getElementById('next-visit').value='';
+  services.forEach(s=>{ s.checked=false; s.qty=1; });
+  saveServicesToStorage();
+  renderServiceTable();
+  document.getElementById('inv-no').textContent='Invoice #—';
+  renderInvoice();
+}
+
+/* ---------- Patients ---------- */
+function clearPatientForm(){
+  ['np-name','np-contact','np-age','np-cnic','np-address','np-emergency','np-allergies'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('np-gender').value='';
+}
+
+function renderPatients(){
+  const wrap = document.getElementById('patients-wrap');
+  const patients = loadPatients();
+  const q = (document.getElementById('patients-search').value||'').trim().toLowerCase();
+
+  if(patients.length===0){
+    wrap.innerHTML = '<div class="empty-state">No patients registered yet.</div>';
+    return;
+  }
+  const filtered = q ? patients.filter(p=>
+    p.code.toLowerCase().includes(q) ||
+    p.name.toLowerCase().includes(q) ||
+    (p.contact||'').toLowerCase().includes(q)
+  ) : patients;
+
+  if(filtered.length===0){
+    wrap.innerHTML = '<div class="empty-state">No patients match that search.</div>';
+    return;
+  }
+
+  const rows = filtered.map(p=>{
+    const idx = patients.indexOf(p);
+    return `
+    <tr>
+      <td>${p.code}</td>
+      <td>${escapeHtml(p.name)}</td>
+      <td>${p.age||'—'}${p.gender?(' · '+escapeHtml(p.gender)):''}</td>
+      <td>${escapeHtml(p.contact)}</td>
+      <td class="hist-actions">
+        <button class="btn ghost small" onclick="billForPatient(${idx})">Bill</button>
+        <button class="btn danger-ghost small" onclick="deletePatient(${idx})">Delete</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  wrap.innerHTML = `
+    <div style="overflow-x:auto;">
+    <table class="hist">
+      <thead><tr><th>ID</th><th>Name</th><th>Age/Gender</th><th>Contact</th><th></th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    </div>`;
+}
+
+function renderPatientPicker(){
+  const sel = document.getElementById('patient-pick');
+  const patients = loadPatients();
+  const current = sel.value;
+  sel.innerHTML = '<option value="">— Walk-in / enter manually —</option>' +
+    patients.map(p=>`<option value="${p.id}">${p.code} — ${escapeHtml(p.name)}</option>`).join('');
+  if(patients.some(p=>String(p.id)===current)) sel.value = current;
+}
+
+function applyPatientPick(idStr){
+  if(!idStr){ return; }
+  const patients = loadPatients();
+  const p = patients.find(x=>String(x.id)===String(idStr));
+  if(!p) return;
+  document.getElementById('p-name').value = p.name;
+  document.getElementById('p-contact').value = p.contact;
+  document.getElementById('p-age').value = p.age;
+  document.getElementById('p-gender').value = p.gender;
+  renderInvoice();
+}
+
+function billForPatient(idx){
+  const patients = loadPatients();
+  const p = patients[idx];
+  if(!p) return;
+  showTab('new');
+  renderPatientPicker();
+  document.getElementById('patient-pick').value = p.id;
+  applyPatientPick(p.id);
+}
+function renderHistory(){
+  const wrap = document.getElementById('history-wrap');
+  const bills = loadBills();
+  const searchEl = document.getElementById('hist-search');
+  const q = (searchEl ? searchEl.value : '').trim().toLowerCase();
+
+  if(bills.length===0){
+    wrap.innerHTML = '<div class="empty-state">No bills saved yet.</div>';
+    return;
+  }
+
+  const filtered = q ? bills.filter((b,idx)=>{
+    const invStr = String(b.invNo).padStart(4,'0');
+    return invStr.includes(q.replace('#',''))
+      || String(b.invNo).includes(q)
+      || (b.name||'').toLowerCase().includes(q)
+      || (b.contact||'').toLowerCase().includes(q);
+  }) : bills;
+
+  if(filtered.length===0){
+    wrap.innerHTML = '<div class="empty-state">No bills match that search.</div>';
+    return;
+  }
+
+  let rows = filtered.map((b)=>{
+    const idx = bills.indexOf(b);
+    return `
+    <tr>
+      <td>#${String(b.invNo).padStart(4,'0')}</td>
+      <td>${escapeHtml(b.name)}</td>
+      <td>${b.date}</td>
+      <td>${fmt(b.total)}</td>
+      <td>${statusBadge(b.status)}</td>
+      <td class="hist-actions">
+        <button class="btn ghost small" onclick="loadBillIntoForm(${idx})">View</button>
+        <button class="btn danger-ghost small" onclick="deleteBill(${idx})">Delete</button>
+      </td>
+    </tr>`;
+  }).join('');
+  wrap.innerHTML = `
+    <div style="overflow-x:auto;">
+    <table class="hist">
+      <thead><tr><th>Invoice</th><th>Patient</th><th>Date</th><th>Total</th><th>Status</th><th></th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    </div>`;
+}
+
+/* ---------- Reports ---------- */
+function setReportRange(kind){
+  const from = document.getElementById('rep-from');
+  const to = document.getElementById('rep-to');
+  const today = new Date();
+  const iso = d => d.toISOString().slice(0,10);
+  if(kind==='today'){ from.value = iso(today); to.value = iso(today); }
+  else if(kind==='week'){ const w = new Date(today); w.setDate(w.getDate()-6); from.value = iso(w); to.value = iso(today); }
+  else if(kind==='month'){ const m = new Date(today.getFullYear(), today.getMonth(), 1); from.value = iso(m); to.value = iso(today); }
+  else if(kind==='all'){ from.value=''; to.value=''; }
+  renderReport();
+}
+
+function renderReport(){
+  const wrap = document.getElementById('report-wrap');
+  const bills = loadBills();
+  const fromVal = document.getElementById('rep-from').value;
+  const toVal = document.getElementById('rep-to').value;
+
+  const inRange = bills.filter(b=>{
+    if(fromVal && b.date < fromVal) return false;
+    if(toVal && b.date > toVal) return false;
+    return true;
+  });
+
+  if(inRange.length===0){
+    wrap.innerHTML = '<div class="empty-state">No bills in this range.</div>';
+    return;
+  }
+
+  const totalRevenue = inRange.reduce((s,b)=>s+b.total,0);
+  const totalDiscount = inRange.reduce((s,b)=>s+(b.discount||0),0);
+  const unpaid = inRange.filter(b=>b.status!=='Paid').reduce((s,b)=>s+b.total,0);
+
+  const svcMap = {};
+  inRange.forEach(b=>{
+    (b.items||[]).forEach(it=>{
+      if(!svcMap[it.name]) svcMap[it.name] = {qty:0, amount:0};
+      svcMap[it.name].qty += it.qty;
+      svcMap[it.name].amount += it.qty*it.price;
+    });
+  });
+  const svcRows = Object.entries(svcMap)
+    .sort((a,b)=>b[1].amount-a[1].amount)
+    .map(([name,v])=>`<tr><td>${escapeHtml(name)}</td><td>${v.qty}</td><td>${fmt(v.amount)}</td></tr>`)
+    .join('');
+
+  wrap.innerHTML = `
+    <div class="kpi-row">
+      <div class="kpi"><div class="num">${inRange.length}</div><div class="lbl">Bills</div></div>
+      <div class="kpi"><div class="num">${fmt(totalRevenue)}</div><div class="lbl">Total revenue</div></div>
+      <div class="kpi"><div class="num">${fmt(unpaid)}</div><div class="lbl">Unpaid / partial</div></div>
+    </div>
+    <div style="overflow-x:auto;">
+    <table class="svc-breakdown">
+      <thead><tr><th>Service</th><th>Qty</th><th>Amount</th></tr></thead>
+      <tbody>${svcRows}</tbody>
+    </table>
+    </div>
+    <div class="inv-foot">Discounts given in range: ${fmt(totalDiscount)}</div>
+  `;
+}
+
+function loadBillIntoForm(idx){
+  const bills = loadBills();
+  const b = bills[idx];
+  if(!b) return;
+  document.getElementById('p-name').value = b.name;
+  document.getElementById('p-age').value = b.age;
+  document.getElementById('p-gender').value = b.gender;
+  document.getElementById('p-contact').value = b.contact;
+  document.getElementById('p-date').value = b.date;
+  document.getElementById('discount').value = b.discount;
+  document.getElementById('paid-status').value = b.status;
+  document.getElementById('notes').value = b.notes;
+  document.getElementById('next-visit').value = b.nextVisit || '';
+
+  // reset checked/qty, then apply matching items by name
+  services.forEach(s=>{ s.checked=false; s.qty=1; });
+  b.items.forEach(it=>{
+    let s = services.find(x=>x.name===it.name);
+    if(!s){
+      s = {id:'custom_'+(customCounter++)+'_'+Date.now(), name:it.name, price:it.price, checked:false, qty:1};
+      services.push(s);
+    }
+    s.checked = true;
+    s.qty = it.qty;
+    s.price = it.price;
+  });
+  saveServicesToStorage();
+  renderServiceTable();
+  document.getElementById('inv-no').textContent = 'Invoice #' + String(b.invNo).padStart(4,'0');
+  renderInvoice();
+  showTab('new');
+}
+
+/* ---------- Admin dashboard ---------- */
+function renderAdmin(){
+  renderAdminKpis();
+  renderAccounts();
+  renderActivityLog();
+}
+
+function renderAdminKpis(){
+  const bills = loadBills();
+  const patients = loadPatients();
+  const accounts = getAccounts();
+  const totalRevenue = bills.reduce((s,b)=>s+b.total,0);
+  const wrap = document.getElementById('admin-kpis');
+  wrap.innerHTML = `
+    <div class="kpi"><div class="num">${patients.length}</div><div class="lbl">Registered patients</div></div>
+    <div class="kpi"><div class="num">${bills.length}</div><div class="lbl">Bills saved</div></div>
+    <div class="kpi"><div class="num">${fmt(totalRevenue)}</div><div class="lbl">Total revenue (all time)</div></div>
+    <div class="kpi"><div class="num">${accounts.length}</div><div class="lbl">Staff accounts</div></div>
+    <div class="kpi"><div class="num">${loadLog().length}</div><div class="lbl">Logged activities</div></div>
+  `;
+}
+
+function renderAccounts(){
+  const wrap = document.getElementById('accounts-wrap');
+  const accounts = getAccounts();
+  const me = currentUser();
+  const rows = accounts.map((a,idx)=>`
+    <tr>
+      <td>${escapeHtml(a.username)}</td>
+      <td>${escapeHtml(a.role)}</td>
+      <td class="hist-actions">
+        ${(me && me.username===a.username) ? '<span style="font-size:.75rem;color:var(--ink-soft);">signed in</span>' :
+          `<button class="btn danger-ghost small" onclick="removeAccount(${idx})">Remove</button>`}
+      </td>
+    </tr>`).join('');
+  wrap.innerHTML = `
+    <div style="overflow-x:auto;">
+    <table class="hist">
+      <thead><tr><th>Username</th><th>Role</th><th></th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    </div>`;
+}
+
+function renderActivityLog(){
+  const wrap = document.getElementById('activity-wrap');
+  const log = loadLog();
+  const q = (document.getElementById('log-search').value||'').trim().toLowerCase();
+  const filtered = q ? log.filter(e=>
+    (e.user||'').toLowerCase().includes(q) || (e.action||'').toLowerCase().includes(q) || (e.details||'').toLowerCase().includes(q)
+  ) : log;
+
+  if(filtered.length===0){
+    wrap.innerHTML = '<div class="empty-state">No activity recorded yet.</div>';
+    return;
+  }
+  const rows = filtered.slice(0,200).map(e=>{
+    const d = new Date(e.ts);
+    const when = isNaN(d) ? e.ts : d.toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+    return `<tr><td style="white-space:nowrap;">${when}</td><td>${escapeHtml(e.user)}</td><td>${escapeHtml(e.action)}</td><td>${escapeHtml(e.details)}</td></tr>`;
+  }).join('');
+  wrap.innerHTML = `
+    <div style="overflow-x:auto;">
+    <table class="hist">
+      <thead><tr><th>When</th><th>User</th><th>Action</th><th>Details</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    </div>`;
+}
+
+/* ---------- Tabs ---------- */
+function showTab(which){
+  const me = currentUser();
+  if(which==='admin' && !(me && me.role==='admin')){ which='new'; }
+  document.getElementById('tab-dashboard').classList.toggle('hidden', which!=='dashboard');
+  document.getElementById('tab-new').classList.toggle('hidden', which!=='new');
+  document.getElementById('tab-patients').classList.toggle('hidden', which!=='patients');
+  document.getElementById('tab-history').classList.toggle('hidden', which!=='history');
+  document.getElementById('tab-reports').classList.toggle('hidden', which!=='reports');
+  document.getElementById('tab-admin').classList.toggle('hidden', which!=='admin');
+  document.getElementById('tabbtn-new').classList.toggle('active', which==='new');
+  document.getElementById('tabbtn-patients').classList.toggle('active', which==='patients');
+  document.getElementById('tabbtn-history').classList.toggle('active', which==='history');
+  document.getElementById('tabbtn-reports').classList.toggle('active', which==='reports');
+  document.getElementById('tabbtn-admin').classList.toggle('active', which==='admin');
+  if(which==='patients') renderPatients();
+  if(which==='history') renderHistory();
+  if(which==='reports') renderReport();
+  if(which==='admin') renderAdmin();
+  if(which==='dashboard') renderDashboard();
+  markSidebar(which);
+  if(typeof syncSoon==='function' && which!=='new') syncSoon();
+}
+
+/* ---------- Init ---------- */
+/* ================= Side menu ================= */
+const SB_ITEMS=[['dashboard','🏠','Dashboard'],['new','🧾','New Bill'],['patients','👥','Patients'],['history','🗂','History'],['reports','📊','Reports'],['admin','🛡','Admin']];
+let currentTab='dashboard';
+function buildSidebar(){
+  const me=currentUser();
+  document.getElementById('sb-nav').innerHTML=SB_ITEMS.filter(i=>i[0]!=='admin'||(me&&me.role==='admin')).map(i=>
+    `<button class="sb-item" data-tab="${i[0]}" onclick="showTab('${i[0]}');toggleSidebar(false)"><span class="ic">${i[1]}</span><span>${i[2]}</span></button>`).join('');
+  document.getElementById('sb-user').textContent=me?('Signed in: '+me.username+' · '+me.role):'';
+  markSidebar(currentTab);
+}
+function markSidebar(t){ currentTab=t; document.querySelectorAll('.sb-item').forEach(b=>b.classList.toggle('active',b.dataset.tab===t)); }
+function toggleSidebar(force){
+  const sb=document.getElementById('sidebar');
+  const open=typeof force==='boolean'?force:!sb.classList.contains('open');
+  sb.classList.toggle('open',open); document.getElementById('sb-overlay').classList.toggle('open',open);
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') toggleSidebar(false); });
+
+function localDate(d){ d=d||new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function statusBadge(st){ const c=st==='Paid'?'badge-paid':st==='Partial'?'badge-partial':'badge-unpaid'; return `<span class="badge ${c}">${escapeHtml(st)}</span>`; }
+function renderDashboard(){
+  const bills=loadBills(), pts=loadPatients(), today=localDate();
+  const tb=bills.filter(b=>b.date===today);
+  const income=tb.reduce((a,b)=>a+b.total,0);
+  const unpaid=bills.filter(b=>b.status!=='Paid').reduce((a,b)=>a+b.total,0);
+  const me=currentUser(), h=new Date().getHours();
+  const greet=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+  document.getElementById('dash-greet').innerHTML=`${greet}, ${escapeHtml(me?me.username:'')} 👋`;
+  const card=(c,ic,n,l,u)=>`<div class="stat ${c}"><div class="ic">${ic}</div><div class="num">${n}</div><div class="lbl">${l}</div></div>`;
+  document.getElementById('dash-stats').innerHTML=
+    card('s1','💰',fmt(income),"Today's income","")+card('s2','🧾',tb.length,"Today's bills","")+
+    card('s3','👥',pts.length,'Registered patients','')+card('s4','⏳',fmt(unpaid),'Unpaid / partial','');
+  const days=[]; for(let i=6;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const k=localDate(d);
+    days.push({k,lbl:d.toLocaleDateString('en-GB',{weekday:'short'}),v:bills.filter(b=>b.date===k).reduce((a,b)=>a+b.total,0)}); }
+  const mx=Math.max(1,...days.map(d=>d.v));
+  document.getElementById('dash-chart').innerHTML='<div class="bars">'+days.map(d=>`<div class="bar"><b>${d.v?Math.round(d.v/100)/10+'k':''}</b><i style="height:${Math.max(2,Math.round(d.v/mx*130))}px"></i>${d.lbl}</div>`).join('')+'</div>';
+  const rec=bills.slice(0,5);
+  document.getElementById('dash-recent').innerHTML=rec.length?rec.map(b=>`<div class="recent-row"><div><b>#${String(b.invNo).padStart(4,'0')} · ${escapeHtml(b.name)}</b><small>${b.date}</small></div><div style="text-align:right"><b>${fmt(b.total)}</b><br>${statusBadge(b.status)}</div></div>`).join(''):'<div class="empty-state">No bills yet. Start with "New Bill".</div>';
+}
+initScreen();
+</script>
+</body>
+</html>
